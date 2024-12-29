@@ -3,7 +3,7 @@
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>OFF decoder</title>
+        <title>Cubic Spline (Ecmascript)</title>
         
             <LINK REL=StyleSheet HREF="default.css" TYPE="text/css"> 
             <script src="jquery_1.11.1.js"></script>
@@ -17,16 +17,12 @@
                 var myContext = canvas.getContext("2d");
                 myContext.strokeStyle = 'black';
                 var cubicSpline = new CubicSpline();
-/*
-                this.points = [ new Point(0,400), 
-                    new Point(400,200),
-                    new Point(650,400)];
-*/
+
                 function clear() {
                     myContext.clearRect(0, 0, canvas.width, canvas.height);
                 }
 
-                function render() {
+                function renderLine() {
                     // assume order knots (x)
                     var knots = cubicSpline.knots;
                     var numKnots = cubicSpline.numKnots;
@@ -35,11 +31,23 @@
                     myContext.beginPath();
                     myContext.moveTo(start, knots[0].y);
                     for (var x=start+1; x<end; x++) {
-                        var y = cubicSpline.interpolateY(x)
+                        var y = cubicSpline.interpolateY(x);
                         myContext.lineTo(x, y);
                         myContext.moveTo(x, y);
                     }
                     myContext.stroke();
+                }
+
+                function renderKnots() {
+                    // assume order knots (x)
+                    var knots = cubicSpline.knots;
+                    var numKnots = cubicSpline.numKnots;
+                    for (var i=0; i<numKnots; i++) {
+                        myContext.beginPath();
+                        myContext.arc(knots[i].x, knots[i].y, 2, 0, 2 * Math.PI);
+                        myContext.fillStyle = 'red';
+                        myContext.fill();
+                    }
                 }
 
                 $("#divCanvas").click(function(e) {
@@ -51,13 +59,11 @@
                     var p = new Point(x, y);
                     cubicSpline.append(p);
 
-                    
                     if(cubicSpline.numKnots>=3) {
                         cubicSpline.formulate();
                         clear();
-
-                        // draw curve
-                        render();
+                        renderLine();
+                        renderKnots();
                     }
                 });
 
