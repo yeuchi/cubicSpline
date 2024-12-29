@@ -7,7 +7,7 @@ This is a generic ecmascript implementation of cublic spine from Curves reposito
 1. Numerical Receipes in C 2nd edition by William Press   
 https://www.grad.hr/nastava/gs/prg/NumericalRecipesinC.pdf
 
-2. Curves, same code in ReactJS 
+2. Curves, same code in ReactJS         
 https://github.com/yeuchi/Curves
 
 # Demo
